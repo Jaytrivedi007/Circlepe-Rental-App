@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Rental - Step 4</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f4f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+      opacity: 0;
+      transition: opacity 0.3s ease-in;
+    }
+
+    .container {
+      background-color: #ffffff;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 1.25rem;
+      box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .back-btn {
+      font-size: 1.25rem;
+      color: #333;
+      text-decoration: none;
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+    }
+
+    .steps {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .steps div {
+      width: 30%;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-align: center;
+      position: relative;
+      clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
+    }
+
+    .steps div:not(.active) {
+      background-color: #e6f5ec;
+      color: #2a9d8f;
+    }
+
+    .steps div.active {
+      background-color: #dcefff;
+      color: #007bff;
+      box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+      clip-path: none;
+      border-radius: 1.875rem;
+      transform: translateY(-3px);
+      transition: all 0.3s ease;
+    }
+
+    .steps div:not(:last-child) {
+      margin-right: 0.625rem;
+    }
+
+    .steps div::after {
+      display: none;
+    }
+
+    h2 {
+      font-size: 1.375rem;
+      color: #000;
+      margin-bottom: 0;
+      font-weight: bold;
+    }
+
+    .subheader {
+      font-size: 1rem;
+      color: #007bff;
+      font-weight: bold;
+      margin-top: 0.3125rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .image-container {
+      width: 6.25rem;
+      height: 6.25rem;
+      background-color: rgba(0, 123, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1.25rem auto;
+    }
+
+    .image-container img {
+      max-width: 60%;
+      max-height: 60%;
+    }
+
+    .rent-converted {
+      background-color: rgba(0, 123, 255, 0.2);
+      color: #007bff;
+      padding: 0.625rem 0.9375rem;
+      border-radius: 0.9375rem;
+      font-size: 0.875rem;
+      font-weight: bold;
+      margin: 0.9375rem auto;
+      display: inline-block;
+    }
+
+    .info-card {
+      background-color: #f0f4f7;
+      padding: 1.25rem;
+      border-radius: 0.9375rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.9375rem;
+      font-size: 1rem;
+      color: #333;
+    }
+
+    .info-label {
+      font-weight: bold;
+      flex: 1;
+      text-align: left;
+    }
+
+    .info-value {
+      flex: 1;
+      text-align: right;
+    }
+
+    .green-highlight {
+      font-weight: bold;
+      color: #28a745;
+      margin-top: 0.625rem;
+      text-align: center;
+      background-color: rgba(40, 167, 69, 0.2);
+      padding: 0.625rem 0.9375rem;
+      border-radius: 0.9375rem;
+      display: inline-block;
+    }
+
+    .terms {
+      font-size: 0.75rem;
+      color: #777;
+      margin-bottom: 1.25rem;
+    }
+
+    .terms a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: white;
+      padding: 0.75rem;
+      border-radius: 1.875rem;
+      border: none;
+      width: 100%;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1rem;
+      }
+
+      .steps div {
+        font-size: 0.625rem;
+        padding: 0.5rem 0.75rem;
+      }
+
+      h2 {
+        font-size: 1.25rem;
+      }
+
+      .subheader {
+        font-size: 0.875rem;
+      }
+
+      .info-row {
+        font-size: 0.875rem;
+      }
+
+      .btn-primary {
+        font-size: 0.875rem;
+        padding: 0.625rem;
+      }
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      .container {
+        padding: 1.25rem;
+      }
+
+      .steps div {
+        font-size: 0.6875rem;
+      }
+
+      h2 {
+        font-size: 1.3125rem;
+      }
+
+      .subheader {
+        font-size: 0.9375rem;
+      }
+
+      .info-row {
+        font-size: 0.9375rem;
+      }
+
+      .btn-primary {
+        font-size: 0.9375rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#" class="back-btn">&larr;</a>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+
+    <div class="steps">
+      <div>Setup Autopay</div>
+      <div>Setup Autopay</div>
+      <div class="active">KYC & move-in</div>
+    </div>
+
+    <h2>One step away</h2>
+    <p class="subheader">from your dream home</p>
+
+    <div class="image-container">
+      <img src="cap.png" alt="Graduation Cap">
+    </div>
+
+    <div class="rent-converted">
+      Rent converted to Zero-Cost EMI
+    </div>
+
+    <div class="info-card">
+      <div class="info-row">
+        <span class="info-label">Co-living partner:</span>
+        <span class="info-value">Rent-OK</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Payment Amount:</span>
+        <span class="info-value">INR XXXX.00</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Monthly Rent (Zero-Cost EMI):</span>
+        <span class="info-value">10,000 INR/mo.</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Rent Cycle (EMI Duration):</span>
+        <span class="info-value">5 Months</span>
+      </div>
+      <p class="green-highlight">Zero COST EMI</p>
+    </div>
+
+    <div class="terms">
+      <p>By clicking on next, you acknowledge that you have read <a href="#">View Loan Agreement</a> & agree to the terms and conditions contained in the loan agreement.</p>
+    </div>
+
+    <button class="btn-primary" id="continue-btn">Continue &gt;</button>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        document.body.style.opacity = '1';
+      }, 100);
+
+      // Add event listener to the continue button
+      document.getElementById('continue-btn').addEventListener('click', function() {
+        // Fade out the current page
+        document.body.style.opacity = '0';
+        
+        // Wait for the fade-out animation to complete before redirecting
+        setTimeout(() => {
+          window.location.href = 'Dashboard1.html';
+        }, 300); // 300ms matches the transition duration in the CSS
+      });
+    });
+  </script>
+
+</body>
+</html>

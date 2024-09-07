@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Review</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .card1, .card2, .card3, .card4, .card5, .card6, .card7, .card8, .card9 {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card1:hover, .card2:hover, .card3:hover, .card4:hover, .card5:hover, .card6:hover, .card7:hover, .card8:hover, .card9:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .search-bar {
+            background: #e6f2ff;
+            border-radius: 9999px;
+        }
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+        }
+        .filter-icon {
+            background: #e6f2ff;
+            border-radius: 50%;
+        }
+        .icon-hover {
+            transition: transform 0.2s ease-in-out;
+        }
+        .icon-hover:hover {
+            transform: scale(1.1);
+        }
+        .image-container {
+            position: relative;
+            padding-top: 52%; /* Aspect ratio of 311:162 */
+            width: 100%;
+            overflow: hidden;
+        }
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        body {
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+        }
+        body.loaded {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <!-- Transaction Review title at the top center -->
+        <h1 class="text-xl font-semibold text-center mb-4">Transaction Review</h1>
+
+        <!-- Top bar with back button, search results, and filter icon -->
+        <div class="flex justify-between items-center mb-6">
+            <svg id="backArrow" class="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700 icon-hover" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <h2 class="text-lg font-medium">Search Results</h2>
+            <svg class="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700 icon-hover" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+            </svg>
+        </div>
+
+        <!-- Search bar -->
+        <div class="mb-8">
+            <div class="search-bar flex items-center w-full">
+                <div class="flex items-center bg-blue-100 rounded-full shadow-md p-2 w-full">
+                    <svg class="h-5 w-5 text-gray-500 ml-2" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input type="search" placeholder="Gurgaon" class="py-2 px-4 text-base lg:text-lg w-full" aria-label="Search for a city">
+                </div>
+            </div>
+        </div>
+
+        <!-- Property listings -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Property Card 1 -->
+            <div class="card1 bg-blue-100 p-4 rounded-lg shadow-md">
+                <div class="flex flex-col">
+                    <div class="image-container mb-4 rounded-md overflow-hidden">
+                        <img src="images\rent-1.jpeg" alt="Sky Dandelions Apartment" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-lg font-semibold">Sky Dandelions Apartment</h2>
+                        <p class="text-sm text-gray-500">Sector 28, Gurgaon</p>
+                        <p class="text-lg font-semibold mt-2">₹22,000/month</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Property Card 2 -->
+            <div class="card2 bg-blue-100 p-4 rounded-lg shadow-md">
+                <div class="flex flex-col">
+                    <div class="image-container mb-4 rounded-md overflow-hidden">
+                        <img src="8.jpg" alt="Wings Tower" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-lg font-semibold">Wings Tower</h2>
+                        <p class="text-sm text-gray-500">Sector 17, Gurgaon</p>
+                        <p class="text-lg font-semibold mt-2">₹17,000/month</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Property Card 3 -->
+            <div class="card3 bg-blue-100 p-4 rounded-lg shadow-md">
+                <div class="flex flex-col">
+                    <div class="image-container mb-4 rounded-md overflow-hidden">
+                        <img src="1.jpg" alt="Wayside Modern House" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-lg font-semibold">Wayside Modern House</h2>
+                        <p class="text-sm text-gray-500">MG Road, Gurgaon</p>
+                        <p class="text-lg font-semibold mt-2">₹18,000/month</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Property Card 4 -->
+            <div class="card4 bg-blue-100 p-4 rounded-lg shadow-md">
+                <div class="flex flex-col">
+                    <div class="image-container mb-4 rounded-md overflow-hidden">
+                        <img src="6.jpg" alt="Sunset Apartments" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-lg font-semibold">Sunset Apartments</h2>
+                        <p class="text-sm text-gray-500">Sector 45, Gurgaon</p>
+                        <p class="text-lg font-semibold mt-2">₹20,000/month</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Property Card 5 -->
+            <div class="card5 bg-blue-100 p-4 rounded-lg shadow-md">
+                <div class="flex flex-col">
+                    <div class="image-container mb-4 rounded-md overflow-hidden">
+                        <img src="7.jpg" alt="Green Valley Homes" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-lg font-semibold">Green Valley Homes</h2>
+                        <p class="text-sm text-gray-500">Sector 56, Gurgaon</p>
+                        <p class="text-lg font-semibold mt-2">₹25,000/month</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Property Card 6 -->
+            <div class="card6 bg-blue-100 p-4 rounded-lg shadow-md">
+                <div class="flex flex-col">
+                    <div class="image-container mb-4 rounded-md overflow-hidden">
+                        <img src="3 (2).jpg" alt="Urban Heights" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-lg font-semibold">Urban Heights</h2>
+                        <p class="text-sm text-gray-500">DLF Phase 3, Gurgaon</p>
+                        <p class="text-lg font-semibold mt-2">₹30,000/month</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Property Card 7 -->
+            <div class="card7 bg-blue-100 p-4 rounded-lg shadow-md">
+                <div class="flex flex-col">
+                    <div class="image-container mb-4 rounded-md overflow-hidden">
+                        <img src="download.jpeg" alt="Riverside Residences" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-lg font-semibold">Riverside Residences</h2>
+                        <p class="text-sm text-gray-500">Sector 24, Gurgaon</p>
+                        <p class="text-lg font-semibold mt-2">₹28,000/month</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Property Card 8 -->
+            <div class="card8 bg-blue-100 p-4 rounded-lg shadow-md">
+                <div class="flex flex-col">
+                    <div class="image-container mb-4 rounded-md overflow-hidden">
+                        <img src="9.jpg" alt="Metro View Apartments" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-lg font-semibold">Metro View Apartments</h2>
+                        <p class="text-sm text-gray-500">Sector 71, Gurgaon</p>
+                        <p class="text-lg font-semibold mt-2">₹19,000/month</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Property Card 9 -->
+            <div class="card9 bg-blue-100 p-4 rounded-lg shadow-md">
+                <div class="flex flex-col">
+                    <div class="image-container mb-4 rounded-md overflow-hidden">
+                        <img src="5.jpg" alt="Cyber City Flats" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-lg font-semibold">Cyber City Flats</h2>
+                        <p class="text-sm text-gray-500">DLF Cyber City, Gurgaon</p>
+                        <p class="text-lg font-semibold mt-2">₹35,000/month</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 50);
+
+            // Back arrow functionality
+            document.getElementById('backArrow').addEventListener('click', function() {
+                window.location.href = 'dashboard1.html';
+            });
+
+            // Existing card click functionality
+            document.querySelectorAll('.card1, .card2, .card3, .card4, .card5, .card6, .card7, .card8, .card9').forEach(card => {
+                card.addEventListener('click', () => {
+                    const name = card.querySelector('h2').textContent;
+                    const imageSrc = card.querySelector('img').src;
+                    const price = card.querySelector('.text-lg.font-semibold').textContent;
+                    const location = card.querySelector('.text-sm.text-gray-500').textContent;
+                    
+                    window.location.href = `step2.html?name=${encodeURIComponent(name)}&image=${encodeURIComponent(imageSrc)}&price=${encodeURIComponent(price)}&location=${encodeURIComponent(location)}`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

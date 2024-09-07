@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Review</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .popup {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            transition: bottom 0.3s ease-out;
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .popup.active {
+            bottom: 0;
+        }
+        .fade-out {
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+        .slide-up {
+            transform: translateY(100%);
+            transition: transform 0.5s ease-out;
+        }
+        .slide-up.active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="max-w-md mx-auto p-4 sm:p-6">
+        <!-- Back Button and Transaction Review text -->
+        <div class="flex items-center justify-between mb-6">
+            <button class="text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <h1 class="text-xl sm:text-2xl font-semibold text-gray-800">Transaction Review</h1>
+            <div class="w-6"></div>
+        </div>
+
+        <!-- Add this button near the top of your content, perhaps just below the header -->
+        <button id="backButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+            Back to Dashboard
+        </button>
+
+        <!-- Property Overview -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <div class="flex flex-col sm:flex-row items-center">
+                <img id="propertyImage" src="" alt="Property" class="w-full sm:w-1/4 rounded-md mb-4 sm:mb-0">
+                <div class="sm:pl-4 text-center sm:text-left">
+                    <h2 id="propertyName" class="text-lg font-semibold"></h2>
+                    <p id="propertyLocation" class="text-gray-500"></p>
+                    <p id="propertyPrice" class="text-lg font-semibold mt-2"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Period Selection -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <h3 class="text-lg font-semibold mb-2">Select Period</h3>
+            <div class="flex flex-wrap justify-center sm:justify-start space-y-2 sm:space-y-0 sm:space-x-2">
+                <button class="period-btn bg-gray-200 py-2 px-4 rounded-lg w-full sm:w-auto" data-period="6">6 months</button>
+                <button class="period-btn bg-blue-500 text-white py-2 px-4 rounded-lg w-full sm:w-auto" data-period="12">12 months</button>
+                <button class="period-btn bg-gray-200 py-2 px-4 rounded-lg w-full sm:w-auto" data-period="24">24 months</button>
+            </div>
+        </div>
+
+        <!-- Pay Button -->
+        <div class="text-center">
+            <button class="btn-primary w-full sm:w-auto flex items-center justify-center">
+                Pay with Circle
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Popup for Pay with Circle -->
+    <div id="payPopup" class="popup max-w-md mx-auto">
+        <div class="p-6">
+            <div class="text-center mb-4">
+                <h3 class="text-blue-500 font-semibold text-xl mb-2">Circle App</h3>
+                <div class="bg-blue-100 bg-opacity-50 p-2 rounded-lg inline-block">
+                    <h2 class="text-lg font-bold text-black">Rent at Zero Security Deposit</h2>
+                </div>
+            </div>
+            <div class="flex flex-col items-center mb-6">
+                <div class="bg-green-100 rounded-full p-3 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-green-600">Approved</h2>
+            </div>
+            <p class="text-center mb-4">You've selected a <span id="selectedPeriod"></span> month period.</p>
+            <ul class="space-y-2 mb-6">
+                <li class="flex items-center">
+                    <div class="bg-blue-100 rounded-full p-1 mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <span>New Rent Offer: ₹20,000</span>
+                </li>
+                <li class="flex items-center">
+                    <div class="bg-blue-100 rounded-full p-1 mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <span>Zero Security deposit move-in</span>
+                </li>
+                <li class="flex items-center">
+                    <div class="bg-blue-100 rounded-full p-1 mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <span>3-Months salary cover</span>
+                </li>
+            </ul>
+            <button id="payWithCircleBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg w-full flex items-center justify-center transition duration-300">
+                Pay with Circle
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const periodButtons = document.querySelectorAll('.period-btn');
+        const payPopup = document.getElementById('payPopup');
+        const selectedPeriodSpan = document.getElementById('selectedPeriod');
+
+        periodButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const period = button.getAttribute('data-period');
+                selectedPeriodSpan.textContent = period;
+                payPopup.classList.add('active');
+                
+                // Remove active class from all buttons
+                periodButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
+                periodButtons.forEach(btn => btn.classList.add('bg-gray-200'));
+                
+                // Add active class to clicked button
+                button.classList.remove('bg-gray-200');
+                button.classList.add('bg-blue-500', 'text-white');
+            });
+        });
+
+        // Close popup when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!payPopup.contains(event.target) && !event.target.classList.contains('period-btn')) {
+                payPopup.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
+            const imageSrc = urlParams.get('image');
+            const price = urlParams.get('price');
+            const location = urlParams.get('location');
+
+            if (imageSrc) document.getElementById('propertyImage').src = imageSrc;
+            if (name) document.getElementById('propertyName').textContent = name;
+            if (location) document.getElementById('propertyLocation').textContent = location;
+            if (price) document.getElementById('propertyPrice').textContent = price;
+
+            // New code for back button functionality
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.location.href = 'dashboard1.html';
+            });
+
+            const payWithCircleBtn = document.getElementById('payWithCircleBtn');
+            payWithCircleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const selectedPeriod = document.getElementById('selectedPeriod').textContent;
+                
+                const transitionDiv = document.createElement('div');
+                transitionDiv.className = 'slide-up';
+                transitionDiv.style.position = 'fixed';
+                transitionDiv.style.top = '0';
+                transitionDiv.style.left = '0';
+                transitionDiv.style.width = '100%';
+                transitionDiv.style.height = '100%';
+                transitionDiv.style.backgroundColor = 'white';
+                transitionDiv.style.zIndex = '9999';
+                document.body.appendChild(transitionDiv);
+
+                setTimeout(() => {
+                    transitionDiv.classList.add('active');
+                }, 50);
+
+                setTimeout(() => {
+                    window.location.href = `step3.html?period=${encodeURIComponent(selectedPeriod)}`;
+                }, 500);
+            });
+        });
+    </script>
+
+</body>
+</html>

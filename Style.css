@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .ios-btn {
+    @apply bg-blue-500 text-white font-semibold py-2 px-4 rounded-full shadow-md hover:bg-blue-600 transition duration-300;
+  }
+  .ios-card {
+    @apply bg-white rounded-2xl shadow-md p-6 transition duration-300 hover:shadow-lg;
+  }
+  .ios-input {
+    @apply bg-gray-100 border-0 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none;
+  }
+}
+
+/* Add other custom styles here */
